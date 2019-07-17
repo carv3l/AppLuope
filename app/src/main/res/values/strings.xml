@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Luope</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+
+    <string name="login_button_text">GO</string>
+    <string name="message_sucess">Sucesso</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="textview">TextView</string>
+
+
+</resources>
