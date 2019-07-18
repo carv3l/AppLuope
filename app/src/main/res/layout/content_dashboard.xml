@@ -9,8 +9,5 @@
     tools:showIn="@layout/activity_dashboard">
 
 
-    <ListView
-        android:id="@+id/listviewcanteen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </RelativeLayout>
