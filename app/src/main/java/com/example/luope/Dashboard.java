@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,11 +34,13 @@ public class Dashboard extends AppCompatActivity {
 
     //String[] data = {"BIG B","GANDHI"};
         private RecyclerView recyclercantina;
+        private LinearLayoutManager linearLayoutManager;
         private CustomAdapter adapter;
         private List<MyData> data_list;
 
     String serverUri = "https://cordeirovending.luope.com/api/";
 
+    String test1,test2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class Dashboard extends AppCompatActivity {
         token = token.replace(""+"\"" ,"");
         token = token.replace("}","");
 
-        Toast.makeText(this, "Responsa:"+token ,Toast.LENGTH_LONG).show();
+      //  Toast.makeText(this, "Responsa:"+token ,Toast.LENGTH_LONG).show();
 
 
 
@@ -86,11 +89,11 @@ public class Dashboard extends AppCompatActivity {
         data_list = new ArrayList<>();
         load_data_from_server(canteens, token);
 
+        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclercantina.setLayoutManager(linearLayoutManager);
+
         adapter = new CustomAdapter(this,data_list);
         recyclercantina.setAdapter(adapter);
-
-
-
 
 
     }
@@ -99,7 +102,7 @@ public class Dashboard extends AppCompatActivity {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
         String url = ""+serverUri+canteens+token;
-        Toast.makeText(Dashboard.this, "Result:"+url, Toast.LENGTH_LONG).show();
+       // Toast.makeText(Dashboard.this, "Result:"+url, Toast.LENGTH_LONG).show();
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
 
@@ -109,20 +112,17 @@ public class Dashboard extends AppCompatActivity {
                         // Toast.makeText(Dashboard.this, "Result: "+response.toString(), Toast.LENGTH_LONG).show();
                         try {
                             int count = 0;
-                            String canteen_id,canteen_description,test1,test2;
+                            String test1,test2;
                             while (count < response.length()) {
                                 JSONObject jsatojso = response.getJSONObject(count);
-                                canteen_id = jsatojso.getString("canteen_id");
-                                canteen_description = jsatojso.getString("description");
+                                MyData canteendata = new MyData(jsatojso.getString("canteen_id"),jsatojso.getString("description"));
 
                                 test1 = "Ola";
                                 test2 = "Shite";
-
-                                MyData canteendata = new MyData(canteen_id,canteen_description);
                                 MyData tes1 = new MyData(test1,test2);
-                                data_list.add(tes1);
+                                data_list.add(canteendata);
 
-                                Toast.makeText(Dashboard.this,""+canteen_description,Toast.LENGTH_LONG).show();
+                               // Toast.makeText(Dashboard.this,""+canteen_description,Toast.LENGTH_LONG).show();
                               //  Toast.makeText(Dashboard.this,""+jsatojso,Toast.LENGTH_LONG).show();
                                 count++;
                             }
@@ -142,6 +142,11 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    public void onClick(final View view) {
+        int itemPosition = recyclercantina.getChildLayoutPosition(view);
+        int item = recyclercantina.getId();
+        Toast.makeText(this, ""+item, Toast.LENGTH_LONG).show();
+    }
 
 
 
